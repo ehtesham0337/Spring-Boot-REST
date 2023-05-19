@@ -3,6 +3,7 @@ package com.project.test.example.controller;
 import com.project.test.example.model.Content;
 import com.project.test.example.repository.ContentCollectionRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/content") // url to access apis
-@Tag(name = "Content")
+@CrossOrigin(origins = "http://localhost:3000")
+@Tag(name = "Content") // swagger controller name
 public class ContentController {
     private final ContentCollectionRepository repository; //dependency injection of ContentCollectionRepository
 
@@ -35,7 +37,7 @@ public class ContentController {
     // create new content
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
-    public void create(@RequestBody Content content) {
+    public void create(@Valid @RequestBody Content content) {
         repository.save(content);
     }
 
