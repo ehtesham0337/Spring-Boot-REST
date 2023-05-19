@@ -4,7 +4,9 @@ import com.project.test.example.model.Content;
 import com.project.test.example.model.Status;
 import com.project.test.example.model.Type;
 import jakarta.annotation.PostConstruct;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,7 +29,20 @@ public class ContentCollectionRepository {
     }
 
     public void save(Content content) {
-        contentList.add(content);
+        contentList.removeIf(c -> c.id().equals(content.id())); // remove data on the Id
+        contentList.add(content); // replace with updated data on the same Id
+    }
+
+//    public void updateById(Integer id, Content content) {
+//        contentList.set(id - 1, content);
+//    }
+
+    public boolean existsById(Integer id) {
+        return contentList.stream().filter(c -> c.id().equals(id)).count() == 1; // does id exist?
+    }
+
+    public void delete(Integer id) {
+        contentList.removeIf(c -> c.id().equals(id));
     }
 
     @PostConstruct // initialize dependency injection
@@ -45,4 +60,6 @@ public class ContentCollectionRepository {
 
         contentList.add(c);
     }
+
+
 }
