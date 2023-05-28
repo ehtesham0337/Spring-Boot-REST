@@ -25,11 +25,11 @@ public class ContentCollectionRepository {
     }
 
     public Optional<Content> findById(Integer id) {  // Optional -> may or may not be null
-        return contentList.stream().filter(c -> c.id().equals(id)).findFirst();
+        return contentList.stream().filter(c -> c.getId().equals(id)).findFirst();
     }
 
     public void save(Content content) {
-        contentList.removeIf(c -> c.id().equals(content.id())); // remove data on the Id
+        contentList.removeIf(c -> c.getId().equals(content.getId())); // remove data on the Id
         contentList.add(content); // replace with updated data on the same Id
     }
 
@@ -38,11 +38,11 @@ public class ContentCollectionRepository {
 //    }
 
     public boolean existsById(Integer id) {
-        return contentList.stream().filter(c -> c.id().equals(id)).count() == 1; // does id exist?
+        return contentList.stream().filter(c -> c.getId().equals(id)).count() == 1; // does id exist?
     }
 
     public void delete(Integer id) {
-        contentList.removeIf(c -> c.id().equals(id));
+        contentList.removeIf(c -> c.getId().equals(id));
     }
 
     @PostConstruct // initialize dependency injection
